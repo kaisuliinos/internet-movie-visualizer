@@ -18,6 +18,6 @@ titles: pd.DataFrame = pd.read_csv(
   }
 )
 
-titles = titles.sample(1000)
+titles = titles.sample(10000)
 
-titles.to_csv('name.basics.test.tsv', sep='\t', na_rep='NA')
+titles.to_csv('title.basics.test.tsv', sep='\t', na_rep='\\N')
