@@ -7,7 +7,7 @@ from bokeh.plotting import figure, output_file, show
 
 # Import data
 titles: pd.DataFrame = pd.read_csv(
-  'title.basics.tsv',
+  'title.basics.test.tsv',
   sep='\t',
   dtype={
     'tconst': str,
@@ -21,8 +21,6 @@ titles: pd.DataFrame = pd.read_csv(
     'genres': str
   }
 )
-
-titles.head(5).to_csv('Task3_initial.csv', sep='\t', na_rep='NA')
 
 # Drop unnecessary data
 titles.drop(columns=['tconst', 'isAdult', 'endYear', 'runtimeMinutes', 'originalTitle'], inplace=True)
@@ -38,8 +36,6 @@ titles.genres.replace('\\N', pd.NA, inplace=True)
 # Convert types
 titles.startYear = pd.to_numeric(titles.startYear, downcast='integer')
 
-titles.head(5).to_csv('Task3_cleaned_up.csv', sep='\t', na_rep='NA')
-
 # Split genres column and explode to multiple rows
 titles.genres = titles.genres.str.cat(np.repeat('total', titles.shape[0]), sep=',', na_rep='') # Evil hackery to get total count into pivot table
 titles.genres = titles.genres.str.lower().str.split(',')
@@ -47,19 +43,13 @@ titles = titles.explode('genres')
 titles = titles[(titles.genres != 'short') & (titles.genres != '')] # Remove 'short' from genres (not useful) and empty strings (NA)
 titles.reset_index(drop=True, inplace=True)
 
-titles.head(10).to_csv('Task3_exploded.csv', sep='\t', na_rep='NA')
-
 # Create a pivot table where the index is year of release and columns are number of films released that year for a given genre, plus total of films released that year
 genres_by_year = pd.pivot_table(titles, index='startYear', columns=['genres'], values=['primaryTitle'], aggfunc=lambda x: len(x.unique()), fill_value=0)
 genres_by_year.columns = genres_by_year.columns.droplevel() # Drop hierarchy level
 
-genres_by_year.loc[2015:2020].to_csv('Task3_pivot.csv', sep='\t', na_rep='NA')
-
 # Divide film release numbers by the total films released to get percentage
 columns_not_total = genres_by_year.columns.drop(['total'])
 genres_by_year[columns_not_total] = (genres_by_year[columns_not_total].div(genres_by_year.total, axis=0)*100).round(2)
-
-genres_by_year.loc[2015:2020].to_csv('Task3_pivot_percentage.csv', sep='\t', na_rep='NA')
 
 # Pick the 10 most popular genres overall (exclude 'total')
 print(genres_by_year.drop(columns=['total']).sum().sort_values(ascending=False).head(10))
@@ -70,8 +60,6 @@ genres_by_year = genres_by_year[genres_by_year.columns.intersection(top_10_genre
 
 # Discard future releases
 genres_by_year = genres_by_year[genres_by_year.index <= 2021]
-
-genres_by_year.loc[2015:2020].to_csv('Task3_pivot_top10.csv', sep='\t', na_rep='NA')
 
 ### Set up for Bokeh
 
@@ -89,7 +77,7 @@ source = ColumnDataSource(genres_by_year)
 
 # Bokeh
 
-output_file('stacked_area.html')
+output_file('Task3-Mika.html')
 
 p = figure(
   title='Occurrence of genres in films by year of release, top 10 most frequent genres',
@@ -110,5 +98,3 @@ p.legend.items.reverse()
 p.legend.location = 'top_left'
 
 show(p)
-
-genres_by_year.to_csv('IV2021-Task3-Kuitunen_Mika_modified_data.csv')
