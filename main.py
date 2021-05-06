@@ -1,7 +1,10 @@
 import numpy as np
 import pandas as pd
 
+from bokeh.plotting import show
+
 from read_data import read_names, read_principals, read_titles, read_ratings
+from genre_bubble_chart import genre_bubble_chart
 
 def line():
   print('\n')
@@ -13,14 +16,6 @@ names: pd.DataFrame = read_names()
 
 titles = titles.join(other=ratings, on='tconst', rsuffix='_ratings')
 
-print('Titles and ratings')
-print(titles.head(5))
-line()
+p = genre_bubble_chart(titles.copy()) # Pass a copy instead of reference
 
-print('Principals')
-print(principals.head(5))
-line()
-
-print('Names')
-print(names.head(5))
-line()
+show(p)

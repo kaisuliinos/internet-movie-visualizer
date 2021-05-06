@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pandas import Int32Dtype
 
 env = 'test' # 'test' or 'prod'
 
@@ -45,9 +46,9 @@ def read_titles():
       'primaryTitle': str,
       'originalTitle': str,
       'isAdult': str,
-      'startYear': str,
-      'endYear': str,
-      'runtimeMinutes': str,
+      'startYear': Int32Dtype(),
+      'endYear': Int32Dtype(),
+      'runtimeMinutes': Int32Dtype(),
       'genres': str
     },
     'tconst'
@@ -62,8 +63,8 @@ def read_ratings():
     ratings_input,
     {
       'tconst': str,
-      'averageRating': str,
-      'numVotes': str
+      'averageRating': float,
+      'numVotes': Int32Dtype()
     },
     'tconst'
   )
@@ -77,7 +78,7 @@ def read_principals():
     principals_input,
     {
       'tconst': str,
-      'ordering': int,
+      'ordering': Int32Dtype(),
       'nconst': str,
       'category': str,
       'job': str,
@@ -96,8 +97,8 @@ def read_names():
     {
       'nconst': str,
       'primaryName': str,
-      'birthYear': str,
-      'deathYear': str,
+      'birthYear': Int32Dtype(),
+      'deathYear': Int32Dtype(),
       'primaryProfession': str,
       'knownForTitles': str
     },
