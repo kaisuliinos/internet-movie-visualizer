@@ -36,79 +36,71 @@ ratings_input = form_path(ratings_file)
 # -------------------------------------------------------------------------------------------------
 # Titles
 
-titles: pd.DataFrame = read_csv(
-  titles_input,
-  {
-    'tconst': str,
-    'titleType': str,
-    'primaryTitle': str,
-    'originalTitle': str,
-    'isAdult': str,
-    'startYear': str,
-    'endYear': str,
-    'runtimeMinutes': str,
-    'genres': str
-  },
-  'tconst'
+def read_titles():
+  titles: pd.DataFrame = read_csv(
+    titles_input,
+    {
+      'tconst': str,
+      'titleType': str,
+      'primaryTitle': str,
+      'originalTitle': str,
+      'isAdult': str,
+      'startYear': str,
+      'endYear': str,
+      'runtimeMinutes': str,
+      'genres': str
+    },
+    'tconst'
   )
+  return titles
 
 # -------------------------------------------------------------------------------------------------
 # Ratings
 
-ratings: pd.DataFrame = read_csv(
-  ratings_input,
-  {
-    'tconst': str,
-    'averageRating': str,
-    'numVotes': str
-  },
-  'tconst'
-)
-
-titles = titles.join(other=ratings, on='tconst', rsuffix='_ratings')
-
-print('Titles and ratings')
-print(titles.head(5))
-line()
+def read_ratings():
+  ratings: pd.DataFrame = read_csv(
+    ratings_input,
+    {
+      'tconst': str,
+      'averageRating': str,
+      'numVotes': str
+    },
+    'tconst'
+  )
+  return ratings
 
 # -------------------------------------------------------------------------------------------------
 # Principals
 
-principals: pd.DataFrame = read_csv(
-  principals_input,
-  {
-    'tconst': str,
-    'ordering': int,
-    'nconst': str,
-    'category': str,
-    'job': str,
-    'characters': str
-  },
-  'tconst'
-)
-
-print('Principals')
-print(principals.head(5))
-line()
+def read_principals():
+  principals: pd.DataFrame = read_csv(
+    principals_input,
+    {
+      'tconst': str,
+      'ordering': int,
+      'nconst': str,
+      'category': str,
+      'job': str,
+      'characters': str
+    },
+    'tconst'
+  )
+  return principals
 
 # -------------------------------------------------------------------------------------------------
 # Names
 
-name_ids = principals['nconst']
-
-names: pd.DataFrame = read_csv(
-  names_input,
-  {
-    'nconst': str,
-    'primaryName': str,
-    'birthYear': str,
-    'deathYear': str,
-    'primaryProfession': str,
-    'knownForTitles': str
-  },
-  'nconst'
-)
-
-print('Names')
-print(names.head(5))
-line()
+def read_names():
+  names: pd.DataFrame = read_csv(
+    names_input,
+    {
+      'nconst': str,
+      'primaryName': str,
+      'birthYear': str,
+      'deathYear': str,
+      'primaryProfession': str,
+      'knownForTitles': str
+    },
+    'nconst'
+  )
+  return names
