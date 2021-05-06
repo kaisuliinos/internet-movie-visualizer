@@ -11,7 +11,7 @@ titles: pd.DataFrame = pd.read_csv(
   sep='\t',
   dtype={
     'tconst': str,
-    'titleType': pd.CategoricalDtype(categories=['short', 'movie', 'tvEpisode' 'tvMovie', 'tvSeries', 'video']),
+    'titleType': pd.CategoricalDtype(categories=['short', 'movie', 'tvEpisode' 'tvMovie', 'tvSeries', 'tvMiniSeries', 'tvEpisode', 'video']),
     'primaryTitle': str,
     'originalTitle': str,
     'isAdult': str,

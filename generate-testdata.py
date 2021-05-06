@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 # Import data
 titles: pd.DataFrame = pd.read_csv(
@@ -7,7 +6,7 @@ titles: pd.DataFrame = pd.read_csv(
   sep='\t',
   dtype={
     'tconst': str,
-    'titleType': pd.CategoricalDtype(categories=['short', 'movie', 'tvEpisode' 'tvMovie', 'tvSeries', 'video']),
+    'titleType': str,
     'primaryTitle': str,
     'originalTitle': str,
     'isAdult': str,
@@ -19,5 +18,6 @@ titles: pd.DataFrame = pd.read_csv(
 )
 
 titles = titles.sample(10000)
+titles.reset_index(drop=True, inplace=True)
 
-titles.to_csv('title.basics.test.tsv', sep='\t', na_rep='\\N')
+titles.to_csv('title.basics.test.tsv', sep='\t', na_rep='\\N', index=False)
