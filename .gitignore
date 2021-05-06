@@ -323,9 +323,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,visualstudiocode,pycharm,python
 
 .vscode/
-title.basics.tsv
-title.crew.tsv
-title.ratings.tsv
-title.principals.tsv
-name.basics.tsv
+*.tsv
+!*.test.tsv
 *.html

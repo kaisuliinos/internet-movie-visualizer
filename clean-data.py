@@ -6,7 +6,7 @@ def line():
 def formPaths(file):
   data_path = 'data/'
   extension = '.tsv'
-  test_suffix = '.test'
+  test_suffix = '.prod'
 
   input = '{}{}{}'.format(data_path, file, extension)
   output = '{}{}{}{}'.format(data_path, file, test_suffix, extension)
@@ -46,7 +46,6 @@ print(titles.titleType.unique())
 categories = ['movie', 'tvMovie', 'tvSeries', 'tvMiniSeries']
 titles = titles[titles['titleType'].isin(categories)]
 
-titles = titles.sample(10000)
 titles.reset_index(drop=True, inplace=True)
 
 print(titles.head(5))
