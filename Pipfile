@@ -10,6 +10,7 @@ pylint = "*"
 bokeh = "*"
 pandas = "*"
 numpy = "*"
+circlify = "*"
 
 [requires]
 python_version = "3.9"
