@@ -6,30 +6,39 @@ env = 'test' # 'test' or 'prod'
 def line():
   print('\n')
 
-def formPath(file):
+def form_path(file):
   data_path = 'data/'
   extension = '.tsv'
   suffix = '.{}'.format(env)
 
   return '{}{}{}{}'.format(data_path, file, suffix, extension)
 
+def read_csv(file, file_spec, index_col=None):
+  res: pd.DataFrame = pd.read_csv(
+    file,
+    sep='\t',
+    dtype=file_spec,
+    index_col=index_col,
+    na_values='\\N',
+  )
+  return res
+
 titles_file = 'title.basics'
 principals_file = 'title.principals'
 names_file = 'name.basics'
 ratings_file = 'title.ratings'
 
-titles_input = formPath(titles_file)
-principals_input = formPath(principals_file)
-names_input = formPath(names_file)
-ratings_input = formPath(ratings_file)
+titles_input = form_path(titles_file)
+principals_input = form_path(principals_file)
+names_input = form_path(names_file)
+ratings_input = form_path(ratings_file)
 
 # -------------------------------------------------------------------------------------------------
 # Titles
 
-titles: pd.DataFrame = pd.read_csv(
+titles: pd.DataFrame = read_csv(
   titles_input,
-  sep='\t',
-  dtype={
+  {
     'tconst': str,
     'titleType': str,
     'primaryTitle': str,
@@ -39,40 +48,46 @@ titles: pd.DataFrame = pd.read_csv(
     'endYear': str,
     'runtimeMinutes': str,
     'genres': str
-  }
+  },
+  'tconst'
+  )
+
+# -------------------------------------------------------------------------------------------------
+# Ratings
+
+ratings: pd.DataFrame = read_csv(
+  ratings_input,
+  {
+    'tconst': str,
+    'averageRating': str,
+    'numVotes': str
+  },
+  'tconst'
 )
 
-print('TITLES')
-print('Title types:')
-print(titles.titleType.unique())
-line()
+titles = titles.join(other=ratings, on='tconst', rsuffix='_ratings')
 
+print('Titles and ratings')
 print(titles.head(5))
 line()
 
 # -------------------------------------------------------------------------------------------------
 # Principals
 
-title_ids = titles['tconst']
-
-principals: pd.DataFrame = pd.read_csv(
+principals: pd.DataFrame = read_csv(
   principals_input,
-  sep='\t',
-  dtype={
+  {
     'tconst': str,
     'ordering': int,
     'nconst': str,
     'category': str,
     'job': str,
     'characters': str
-  }
+  },
+  'tconst'
 )
 
-print('PRINCIPALS')
-print('Principal categories:')
-print(principals.category.unique())
-line()
-
+print('Principals')
 print(principals.head(5))
 line()
 
@@ -81,40 +96,19 @@ line()
 
 name_ids = principals['nconst']
 
-names: pd.DataFrame = pd.read_csv(
+names: pd.DataFrame = read_csv(
   names_input,
-  sep='\t',
-  dtype={
+  {
     'nconst': str,
     'primaryName': str,
     'birthYear': str,
     'deathYear': str,
     'primaryProfession': str,
     'knownForTitles': str
-  }
+  },
+  'nconst'
 )
 
-names.reset_index(drop=True, inplace=True)
-
-print('NAMES')
+print('Names')
 print(names.head(5))
-line()
-
-# -------------------------------------------------------------------------------------------------
-# Ratings
-
-ratings: pd.DataFrame = pd.read_csv(
-  ratings_input,
-  sep='\t',
-  dtype={
-    'tconst': str,
-    'averageRating': str,
-    'numVotes': str
-  }
-)
-
-ratings.reset_index(drop=True, inplace=True)
-
-print('RATINGS')
-print(ratings.head(5))
 line()
