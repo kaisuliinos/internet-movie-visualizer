@@ -7,7 +7,7 @@ from bokeh.plotting import figure, output_file, show
 
 # Import data
 titles: pd.DataFrame = pd.read_csv(
-  'title.basics.test.tsv',
+  'data/title.basics.test.tsv',
   sep='\t',
   dtype={
     'tconst': str,

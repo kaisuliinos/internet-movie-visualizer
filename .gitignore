@@ -326,4 +326,6 @@ $RECYCLE.BIN/
 title.basics.tsv
 title.crew.tsv
 title.ratings.tsv
+title.principals.tsv
+name.basics.tsv
 *.html
