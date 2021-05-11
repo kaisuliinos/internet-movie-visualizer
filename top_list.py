@@ -8,7 +8,7 @@ def top_list(titles: pd.DataFrame):
 
     list_items = []
     for index, row in top_ten.iterrows():
-        list_items.append('<li>{}</li>'.format(row['primaryTitle']))
+        list_items.append('<li>{} - {}</li>'.format(row['primaryTitle'], row['averageRating']))
 
     div = Div(text="""
         <ol type='1'>
