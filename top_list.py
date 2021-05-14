@@ -5,13 +5,13 @@ from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, Text
 from bokeh.models import Div
 from bokeh.plotting import figure
 
-def format_text(data):
-  order = data[0]
-  title = data[1]
-  start = data[2]
-  end = data[3]
-  rating = data[4]
-  print(end)
+def format_text(row):
+  order = row.order
+  title = row.primaryTitle
+  start = row.startYear
+  end = row.endYear
+  rating = row.averageRating
+
   if pd.isna(end):
     return '{}: {} ({}): {}'.format(order, title, start, rating)
   else:
@@ -20,24 +20,22 @@ def format_text(data):
 def top_list_data(titles: pd.DataFrame) -> pd.DataFrame:
   top_list: pd.DataFrame = titles[titles.numVotes > 1000].nlargest(10, 'averageRating', keep='first')
   top_list.reset_index(inplace=True)
-  top_list['order'] = top_list.index
-  top_list['text'] = top_list[['order', 'primaryTitle','startYear', 'endYear', 'averageRating']].apply(format_text, axis=1)
-  top_list.drop(columns=['isAdult', 'endYear', 'runtimeMinutes', 'originalTitle', 'genres', 'titleType'], inplace=True)
+  top_list['order'] = top_list.index + 1
+  top_list['text'] = top_list.apply(format_text, axis=1)
   top_list['x'] = 0
   top_list['y'] = top_list.index[::-1] # Reverse index
 
-  print(top_list.head(10))
-
-  return top_list
+  return top_list[['order', 'x', 'y', 'text']]
 
 
 def top_list(top_list: ColumnDataSource):
   p = figure(
+    name='top_list',
     title='Top 10 best rated films',
     plot_width=600,
     plot_height=400,
     x_range=[0, 1000],
-    y_range=[0, 9],
+    y_range=[0, 10],
     min_border=0,
     toolbar_location=None
   )

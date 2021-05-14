@@ -21,9 +21,13 @@ def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   titles = titles.explode('genres')
   titles = titles[(titles.genres != 'short') & (titles.genres != '')] # Remove 'short' from genres (not useful) and empty strings (NA)
   titles.reset_index(drop=True, inplace=True)
-  # Here ends Mika's previous code ----
 
-  counts_by_genre = pd.pivot_table(titles, index=['genres'], values=['primaryTitle'], aggfunc=lambda x: len(x.unique()), fill_value=0)
+  counts_by_genre = pd.pivot_table(
+    titles, index=['genres'],
+    values=['primaryTitle'],
+    aggfunc=lambda x: len(x.unique()),
+    fill_value=0
+  )
 
   # Convert the index to column and rename primaryTitle to datum so that to_dict returns the data in a format circlify understands
   counts_by_genre.reset_index(inplace=True)
@@ -35,7 +39,7 @@ def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
 
   # Change circle objects to dicts for pandas
   circle_dicts = []
-  for i, c in enumerate(circles):
+  for _, c in enumerate(circles):
     circle_dicts.append({
       'x': c.x,
       'y': c.y,
@@ -52,11 +56,14 @@ def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
 
 
 def genre_bubble_chart(circles_source: ColumnDataSource):
-  p = figure(title='Genre popularity',
-             x_range=[-1, 1],
-             y_range=[-1, 1],
-             plot_width=circle_plot_width,
-             plot_height=circle_plot_width)
+  p = figure(
+    name='genre_bubble_chart',
+    title='Genre popularity',
+    x_range=[-1, 1],
+    y_range=[-1, 1],
+    plot_width=circle_plot_width,
+    plot_height=circle_plot_width
+  )
 
   p.toolbar_location = None
 

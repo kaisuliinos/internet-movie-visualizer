@@ -10,7 +10,7 @@ from bokeh.models import RangeSlider, TextInput, RadioButtonGroup
 from bokeh.io import curdoc
 
 from read_data import read_names, read_principals, read_titles, read_ratings
-from titles_bar_chart import titles_bar_chart
+from titles_bar_chart import titles_bar_chart, titles_bar_chart_data
 from genre_bubble_chart import genre_bubble_chart_data, genre_bubble_chart
 from top_list import top_list, top_list_data
 
@@ -30,7 +30,8 @@ genres_source = ColumnDataSource(genres_df)
 toplist_df = top_list_data(titles.copy())
 toplist_source = ColumnDataSource(toplist_df)
 
-bar_chart = titles_bar_chart(titles.copy())
+title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
+title_count_source = ColumnDataSource(title_count_df)
 
 year_slider = RangeSlider(
   title='Select the release year range',
@@ -52,16 +53,16 @@ def update_year(attr, old, new):
   toplist_new_df = top_list_data(new_titles.copy())
   toplist_source.data = toplist_new_df
 
-
 year_slider.on_change('value', update_year)
-
-bubble_chart = genre_bubble_chart(genres_source)
-toplist = top_list(toplist_source)
 
 search_bar = TextInput(value='', title="Search by director or author's name:")
 
 tab_labels = ['Movies', 'Tv-series']
 tabs = RadioButtonGroup(labels=tab_labels, active=0)
+
+bubble_chart = genre_bubble_chart(genres_source)
+toplist = top_list(toplist_source)
+bar_chart = titles_bar_chart(title_count_source)
 
 r = row(tabs, year_slider, search_bar)
 c = column(r, toplist, bar_chart)
@@ -71,4 +72,4 @@ lo = layout([
 ])
 
 curdoc().add_root(lo)
-curdoc().title = 'APUA SOS'
+curdoc().title = 'IMVis'
