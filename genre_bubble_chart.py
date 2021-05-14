@@ -1,12 +1,17 @@
+from bokeh.core.property.container import ColumnData
+from bokeh.models.layouts import Column
 import pandas as pd
 import numpy as np
 import circlify
 
-from bokeh.models import ColumnDataSource, HoverTool, LabelSet
-from bokeh.palettes import brewer
+from bokeh.models import ColumnDataSource, LabelSet
 from bokeh.plotting import figure
 
-def genre_bubble_chart(titles: pd.DataFrame):
+from string_to_rgb import string_to_rgb
+
+circle_plot_width = 800
+
+def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   # Drop unnecessary data
   titles.drop(columns=['isAdult', 'endYear', 'runtimeMinutes', 'originalTitle'], inplace=True)
 
@@ -30,21 +35,23 @@ def genre_bubble_chart(titles: pd.DataFrame):
 
   # Change circle objects to dicts for pandas
   circle_dicts = []
-  circle_plot_width = 800
-  colors = brewer['Set3'][12]
   for i, c in enumerate(circles):
     circle_dicts.append({
       'x': c.x,
       'y': c.y,
       'r': c.r * circle_plot_width*0.9,
       'genre': c.ex['genres'],
-      'color': colors[i % len(colors)]
+      'color': string_to_rgb(c.ex['genres'])
     })
 
   # Plot the circles
   circles_df = pd.DataFrame(data=circle_dicts)
   circles_df.set_index(['genre'], inplace=True)
-  circles_source = ColumnDataSource(circles_df)
+
+  return circles_df
+
+
+def genre_bubble_chart(circles_source: ColumnDataSource):
   p = figure(title='Genre popularity',
              x_range=[-1, 1],
              y_range=[-1, 1],

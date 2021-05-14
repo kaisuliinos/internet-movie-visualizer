@@ -1,14 +1,18 @@
+from bokeh.core.property.container import ColumnData
+from bokeh.models import ColumnDataSource
+from bokeh.models.layouts import Column
 import numpy as np
 import pandas as pd
 
 from bokeh.plotting import show
 from bokeh.layouts import layout, column, row
 from bokeh.models import RangeSlider, TextInput, RadioButtonGroup
+from bokeh.io import curdoc
 
 from read_data import read_names, read_principals, read_titles, read_ratings
-from genre_bubble_chart import genre_bubble_chart
-from top_list import top_list
 from titles_bar_chart import titles_bar_chart
+from genre_bubble_chart import genre_bubble_chart_data, genre_bubble_chart
+from top_list import top_list, top_list_data
 
 def line():
   print('\n')
@@ -20,8 +24,12 @@ names: pd.DataFrame = read_names()
 
 titles = titles.join(other=ratings, on='tconst', rsuffix='_ratings')
 
-bubble_chart = genre_bubble_chart(titles.copy()) # Pass a copy instead of reference
-toplist = top_list(titles.copy())
+genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
+genres_source = ColumnDataSource(genres_df)
+
+toplist_df = top_list_data(titles.copy())
+toplist_source = ColumnDataSource(toplist_df)
+
 bar_chart = titles_bar_chart(titles.copy())
 
 year_slider = RangeSlider(
@@ -31,6 +39,24 @@ year_slider = RangeSlider(
   step=1,
   value=(1910, 2021)
 )
+
+def update_year(attr, old, new):
+  start, end = new
+  global genres_source, toplist_source
+
+  new_titles = titles[(titles.startYear >= start) & (titles.startYear <= end)]
+
+  genres_new_df = genre_bubble_chart_data(new_titles.copy())
+  genres_source.data = genres_new_df
+
+  toplist_new_df = top_list_data(new_titles.copy())
+  toplist_source.data = toplist_new_df
+
+
+year_slider.on_change('value', update_year)
+
+bubble_chart = genre_bubble_chart(genres_source)
+toplist = top_list(toplist_source)
 
 search_bar = TextInput(value='', title="Search by director or author's name:")
 
@@ -44,4 +70,5 @@ lo = layout([
   [c, bubble_chart]
 ])
 
-show(lo)
+curdoc().add_root(lo)
+curdoc().title = 'APUA SOS'
