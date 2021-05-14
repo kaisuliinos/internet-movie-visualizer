@@ -58,7 +58,6 @@ def genre_bubble_chart(circles_source: ColumnDataSource):
              plot_width=circle_plot_width,
              plot_height=circle_plot_width)
 
-  p.toolbar.logo = None
   p.toolbar_location = None
 
   p.scatter(x='x', y='y', size='r', fill_color='color', line_color='color', source=circles_source)
