@@ -45,7 +45,14 @@ def genre_bubble_chart(titles: pd.DataFrame):
   circles_df = pd.DataFrame(data=circle_dicts)
   circles_df.set_index(['genre'], inplace=True)
   circles_source = ColumnDataSource(circles_df)
-  p = figure(x_range=[-1, 1], y_range=[-1, 1], plot_width=circle_plot_width, plot_height=circle_plot_width)
+  p = figure(title='Genre popularity',
+             x_range=[-1, 1],
+             y_range=[-1, 1],
+             plot_width=circle_plot_width,
+             plot_height=circle_plot_width)
+
+  p.toolbar.logo = None
+  p.toolbar_location = None
 
   p.scatter(x='x', y='y', size='r', fill_color='color', line_color='color', source=circles_source)
 

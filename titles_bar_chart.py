@@ -35,7 +35,13 @@ def titles_bar_chart(titles: pd.DataFrame):
                plot_width=1000,
                plot_height=600,
                x_axis_label='Year',
-               tooltips=[("Year", "@startYear"), ("Total releases", "@primaryTitle")])
+               tooltips=[("Year", "@startYear"), ("Total releases", "@primaryTitle")],
+               tools='')
+
+    p.toolbar.logo = None
+    p.toolbar_location = None
+
+    p.xgrid.visible = False
 
     p.vbar(x='startYear', top='primaryTitle', source=bar_source, width=0.7)
     p.y_range.start = 0
