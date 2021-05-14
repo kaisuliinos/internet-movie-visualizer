@@ -48,7 +48,12 @@ def top_list(top_list: ColumnDataSource):
   p.xaxis.visible = False
   p.yaxis.visible = False
 
-  glyph = Text(x="x", y="y", text="text")
+  glyph = Text(
+    x='x',
+    y='y',
+    text='text',
+    text_font={'value': 'Courier New'}
+  )
   p.add_glyph(top_list, glyph)
 
   return p
