@@ -8,6 +8,7 @@ from bokeh.plotting import show
 from bokeh.layouts import layout, column, row
 from bokeh.models import RangeSlider, AutocompleteInput, RadioButtonGroup
 from bokeh.io import curdoc
+from bokeh.themes import Theme
 
 from read_data import read_names, read_principals, read_titles, read_ratings
 from titles_bar_chart import titles_bar_chart, titles_bar_chart_data
@@ -16,8 +17,7 @@ from top_list import top_list, top_list_data
 
 from utils import create_name_strings
 
-def line():
-  print('\n')
+# -----------------------------------------------------------------------------
 
 titles: pd.DataFrame = read_titles()
 ratings: pd.DataFrame = read_ratings()
@@ -28,6 +28,8 @@ autocomplete_names = names[['primaryName', 'primaryProfession']].apply(create_na
 
 titles = titles.join(other=ratings, on='tconst', rsuffix='_ratings')
 
+# -----------------------------------------------------------------------------
+
 genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
 genres_source = ColumnDataSource(genres_df)
 
@@ -36,6 +38,8 @@ toplist_source = ColumnDataSource(toplist_df)
 
 title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
 title_count_source = ColumnDataSource(title_count_df)
+
+# -----------------------------------------------------------------------------
 
 year_slider = RangeSlider(
   name='filter_year',
@@ -59,6 +63,8 @@ def update_year(attr, old, new):
 
 year_slider.on_change('value', update_year)
 
+# -----------------------------------------------------------------------------
+
 search_bar = AutocompleteInput(
   name='filter_name',
   value='',
@@ -67,6 +73,13 @@ search_bar = AutocompleteInput(
   css_classes=['autocomplete']
 )
 
+def update_name(attr, old, new):
+  print(new)
+
+search_bar.on_change('value', update_name)
+
+# -----------------------------------------------------------------------------
+
 tab_labels = ['Movies', 'Tv-series']
 tabs = RadioButtonGroup(
   name='filter_tab',
@@ -74,9 +87,13 @@ tabs = RadioButtonGroup(
   active=0
 )
 
+# -----------------------------------------------------------------------------
+
 genre_bubble_chart = genre_bubble_chart(genres_source)
 toplist = top_list(toplist_source)
 bar_chart = titles_bar_chart(title_count_source)
+
+curdoc().theme = Theme(filename="static/theme.json")
 
 curdoc().add_root(genre_bubble_chart)
 curdoc().add_root(toplist)

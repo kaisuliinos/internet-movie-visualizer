@@ -49,7 +49,6 @@ def top_list(top_list: ColumnDataSource):
     x='x',
     y='y',
     text='text',
-    text_font={'value': 'Courier New'}
   )
   p.add_glyph(top_list, glyph)
 

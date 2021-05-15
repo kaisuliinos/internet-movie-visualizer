@@ -9,7 +9,7 @@ from bokeh.plotting import figure
 
 from utils import string_to_rgb
 
-circle_plot_width = 400
+circle_plot_width = 600
 
 def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   # Drop unnecessary data
@@ -69,7 +69,14 @@ def genre_bubble_chart(circles_source: ColumnDataSource):
   p.scatter(x='x', y='y', size='r', fill_color='color', line_color='color', source=circles_source)
 
   # To show the labels for each bubble
-  labels = LabelSet(x='x', y='y', text='genre', source=circles_source, text_align='center', text_baseline='middle')
+  labels = LabelSet(
+    x='x',
+    y='y',
+    text='genre',
+    source=circles_source,
+    text_align='center',
+    text_baseline='middle',
+  )
   p.add_layout(labels)
 
   p.xgrid.visible = False

@@ -40,6 +40,7 @@ def titles_bar_chart(bar_source: ColumnDataSource):
     plot_height=300,
     x_axis_label='Year',
     tooltips=[("Year", "@years"), ("Total releases", "@primaryTitle")],
+    outline_line_alpha=0.5
   )
 
   p.toolbar_location = None

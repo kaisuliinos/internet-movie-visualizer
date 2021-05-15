@@ -8,22 +8,22 @@
 
 {% block contents %}
 <div class="main-container">
-  <h2>Internet Movie Visualizer</h2>
+  <h1>Internet Movie Visualizer</h1>
   <div class="row filters">
     {{ embed(roots.filter_tab) }}
     {{ embed(roots.filter_year) }}
     {{ embed(roots.filter_name) }}
   </div>
   <div class="row">
-    <div class="column">
-      <h3>Top 10 best rated titles</h3>
+    <div class="column left">
+      <h2>Top 10 best rated titles</h2>
       {{ embed(roots.top_list) }}
-      <h3>Titles released per year</h3>
-      <p>Series are included in each year between their start and end years</p>
+      <h2>Titles released per year</h2>
+      <section>Series are included in each year between their start and end years</section>
       {{ embed(roots.titles_bar_chart) }}
     </div>
-    <div class="column">
-      <h3>Most popular genres</h3>
+    <div class="column right">
+      <h2>Most popular genres</h2>
       {{ embed(roots.genre_bubble_chart) }}
     </div>
   </div>
