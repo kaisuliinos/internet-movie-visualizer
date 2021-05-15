@@ -32,7 +32,7 @@ def top_list_data(titles: pd.DataFrame) -> pd.DataFrame:
   top_list['order'] = top_list.index + 1
   top_list['text'] = top_list.apply(format_text, axis=1)
   top_list['x'] = 0
-  top_list['y'] = top_list.index[::-1] # Reverse index
+  top_list['y'] = -top_list.index # Reverse index
 
   return top_list[['order', 'x', 'y', 'text']]
 
@@ -43,7 +43,7 @@ def top_list(top_list: ColumnDataSource):
     plot_width=600,
     plot_height=300,
     x_range=[0, 1000],
-    y_range=[0, 10],
+    y_range=[-10, 1],
     min_border=0,
     toolbar_location=None
   )

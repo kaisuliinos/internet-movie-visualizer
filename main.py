@@ -101,8 +101,6 @@ def update_genres():
     new_titles = titles.copy()
     new_titles = new_titles[new_titles.genres.str.lower().str.contains('|'.join(genres), regex=True, na=False)]
 
-    print(new_titles.head(5))
-
     toplist_df = top_list_data(new_titles)
     title_count_df = titles_bar_chart_data(new_titles)
 
