@@ -12,6 +12,7 @@ from utils import string_to_rgb
 circle_plot_width = 600
 
 def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
+  titles.dropna(subset=['genres'], inplace=True)
   if titles.empty: return pd.DataFrame()
 
   # Split genres column and explode to multiple rows

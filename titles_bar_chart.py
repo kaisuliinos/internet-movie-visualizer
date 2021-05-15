@@ -12,9 +12,9 @@ def create_years(row):
 
 
 def titles_bar_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
+  titles.dropna(subset=['startYear'], inplace=True)
   if titles.empty: return pd.DataFrame()
 
-  titles.dropna(subset=['startYear'], inplace=True)
   titles['years'] = titles.apply(create_years, axis=1)
   titles = titles.explode('years')
   titles.reset_index(drop=True, inplace=True)

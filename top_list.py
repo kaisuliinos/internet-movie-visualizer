@@ -18,9 +18,9 @@ def format_text(row):
     return '{}: {} ({}-{}): {}'.format(order, title, start, end, rating)
 
 def top_list_data(titles: pd.DataFrame) -> pd.DataFrame:
+  titles.dropna(subset=['primaryTitle', 'startYear', 'averageRating'], inplace=True)
   if titles.empty: return pd.DataFrame()
 
-  titles.dropna(subset=['primaryTitle', 'startYear', 'averageRating'], inplace=True)
   top_list: pd.DataFrame = titles[titles.numVotes > 1000].nlargest(10, 'averageRating', keep='first')
 
   # In case other filters have resulted in empty top list, remove vote restriction
