@@ -74,9 +74,7 @@ def update_data():
       row = names_raw[names_raw.primaryName == name].iloc[0] # Throws IndexError if empty dataframe
       nconst = row.name
       principals = principals_raw[principals_raw.nconst == nconst]['tconst'].to_list()
-      print(principals)
       titles = titles[titles.index.isin(principals)]
-      print(titles.head(5))
     except IndexError:
       pass
 
@@ -158,6 +156,7 @@ def clear_name():
   
   if (name != ''):
     name = ''
+    search_bar.value = ''
     update_data()
 
 search_bar_button.on_click(clear_name)

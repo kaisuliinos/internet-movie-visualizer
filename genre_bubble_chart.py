@@ -12,6 +12,8 @@ from utils import string_to_rgb
 circle_plot_width = 600
 
 def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
+  if titles.empty: return pd.DataFrame()
+
   # Drop unnecessary data
   titles.drop(columns=['isAdult', 'endYear', 'runtimeMinutes', 'originalTitle'], inplace=True)
 

@@ -18,6 +18,8 @@ def format_text(row):
     return '{}: {} ({}-{}): {}'.format(order, title, start, end, rating)
 
 def top_list_data(titles: pd.DataFrame) -> pd.DataFrame:
+  if titles.empty: return pd.DataFrame()
+
   top_list: pd.DataFrame = titles[titles.numVotes > 1000].nlargest(10, 'averageRating', keep='first')
   top_list.reset_index(inplace=True)
   top_list['order'] = top_list.index + 1
