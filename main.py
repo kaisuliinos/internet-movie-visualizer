@@ -49,14 +49,9 @@ genre = ''
 
 # -----------------------------------------------------------------------------
 
-genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
-genres_source = ColumnDataSource(genres_df)
-
-toplist_df = top_list_data(titles.copy())
-toplist_source = ColumnDataSource(toplist_df)
-
-title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
-title_count_source = ColumnDataSource(title_count_df)
+genres_source = ColumnDataSource()
+toplist_source = ColumnDataSource()
+title_count_source = ColumnDataSource()
 
 def update_data():
   global tab, start, end, name, genre, titles, genres_source, toplist_source, title_count_source
@@ -75,22 +70,26 @@ def update_data():
   ]
 
   if (name != ''):
-    nconst = names_raw[names_raw.primaryName == name]
-    print(nconst)
-    #principals = principals_raw[principals_raw.nconst == ]
-    #titles = titles[titles.tconst]
+    try:
+      row = names_raw[names_raw.primaryName == name].iloc[0] # Throws IndexError if empty dataframe
+      nconst = row.name
+      principals = principals_raw[principals_raw.nconst == nconst]['tconst'].to_list()
+      print(principals)
+      titles = titles[titles.index.isin(principals)]
+      print(titles.head(5))
+    except IndexError:
+      pass
 
-  new_genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
-  genres_source.data = new_genres_df
+  genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
+  genres_source.data = genres_df
 
-  new_toplist_df = top_list_data(titles.copy())
-  toplist_source.data = new_toplist_df
+  toplist_df = top_list_data(titles.copy())
+  toplist_source.data = toplist_df
 
-  new_title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
-  title_count_source.data = new_title_count_df
+  title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
+  title_count_source.data = title_count_df
 
-
-
+update_data()
 
 # -----------------------------------------------------------------------------
 

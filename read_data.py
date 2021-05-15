@@ -83,8 +83,7 @@ def read_principals():
       'category': str,
       'job': str,
       'characters': str
-    },
-    'tconst'
+    }
   )
   return principals
 
