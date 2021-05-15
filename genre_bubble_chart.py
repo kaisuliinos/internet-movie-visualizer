@@ -14,9 +14,6 @@ circle_plot_width = 600
 def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   if titles.empty: return pd.DataFrame()
 
-  # Drop unnecessary data
-  titles.drop(columns=['isAdult', 'endYear', 'runtimeMinutes', 'originalTitle'], inplace=True)
-
   # Split genres column and explode to multiple rows
   titles.genres = titles.genres.str.lower().str.split(',')
 
@@ -63,7 +60,8 @@ def genre_bubble_chart(circles_source: ColumnDataSource):
     x_range=[-1, 1],
     y_range=[-1, 1],
     plot_width=circle_plot_width,
-    plot_height=circle_plot_width
+    plot_height=circle_plot_width,
+    tools='tap'
   )
 
   p.toolbar_location = None

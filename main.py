@@ -6,9 +6,10 @@ import pandas as pd
 
 from bokeh.plotting import show
 from bokeh.layouts import layout, column, row
-from bokeh.models import RangeSlider, AutocompleteInput, RadioButtonGroup, Button
+from bokeh.models import RangeSlider, AutocompleteInput, RadioButtonGroup, Button, TapTool
 from bokeh.io import curdoc
 from bokeh.themes import Theme
+from bokeh.events import Tap
 
 from read_data import read_names, read_principals, read_titles, read_ratings
 from titles_bar_chart import titles_bar_chart, titles_bar_chart_data
@@ -45,7 +46,7 @@ end = year_max
 
 name = ''
 
-genre = ''
+genres = []
 
 # -----------------------------------------------------------------------------
 
@@ -78,15 +79,38 @@ def update_data():
     except IndexError:
       pass
 
-  genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
-  genres_source.data = genres_df
-
   toplist_df = top_list_data(titles.copy())
   toplist_source.data = toplist_df
 
   title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
   title_count_source.data = title_count_df
 
+  genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
+  genres_source.data = genres_df
+
+def update_genres():
+  global genres
+
+  toplist_df = pd.DataFrame()
+  title_count_df = pd.DataFrame()
+
+  if not genres:
+    toplist_df = top_list_data(titles.copy())
+    title_count_df = titles_bar_chart_data(titles.copy())
+  else:
+    new_titles = titles.copy()
+    new_titles = new_titles[new_titles.genres.str.lower().str.contains('|'.join(genres), regex=True, na=False)]
+
+    print(new_titles.head(5))
+
+    toplist_df = top_list_data(new_titles)
+    title_count_df = titles_bar_chart_data(new_titles)
+
+  toplist_source.data = toplist_df
+  title_count_source.data = title_count_df
+
+
+# Initial run on new session
 update_data()
 
 # -----------------------------------------------------------------------------
@@ -163,9 +187,26 @@ search_bar_button.on_click(clear_name)
 
 # -----------------------------------------------------------------------------
 
-genre_bubble_chart = genre_bubble_chart(genres_source)
+def select_genre(attr, old, new):
+  global genres
+
+  genre_indices = new
+
+  if not genre_indices:
+    genres = []
+  else:
+    all_genres = genres_source.data['genre']
+    genres = [all_genres[i] for i in genre_indices]
+  
+  update_genres()
+
+genres_source.selected.on_change('indices', select_genre)
+
+# -----------------------------------------------------------------------------
+
 toplist = top_list(toplist_source)
 bar_chart = titles_bar_chart(title_count_source)
+genre_bubble_chart = genre_bubble_chart(genres_source)
 
 curdoc().theme = Theme(filename="static/theme.json")
 
