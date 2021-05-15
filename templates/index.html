@@ -12,7 +12,10 @@
   <div class="row filters">
     {{ embed(roots.filter_tab) }}
     {{ embed(roots.filter_year) }}
-    {{ embed(roots.filter_name) }}
+    <div class="row">
+      {{ embed(roots.filter_name) }}
+      {{ embed(roots.filter_name_button) }}
+    </div>
   </div>
   <div class="row">
     <div class="column left">

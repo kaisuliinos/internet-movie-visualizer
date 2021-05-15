@@ -29,13 +29,8 @@ def titles_bar_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   return titles_by_year
 
 def titles_bar_chart(bar_source: ColumnDataSource):
-  years = bar_source.data['years']
-  year_min = np.min(years)
-  year_max = np.max(years)
-
   p = figure(
     name='titles_bar_chart',
-    x_range=(year_min+1, year_max+1),
     plot_width=600,
     plot_height=300,
     x_axis_label='Year',

@@ -6,7 +6,7 @@ import pandas as pd
 
 from bokeh.plotting import show
 from bokeh.layouts import layout, column, row
-from bokeh.models import RangeSlider, AutocompleteInput, RadioButtonGroup
+from bokeh.models import RangeSlider, AutocompleteInput, RadioButtonGroup, Button
 from bokeh.io import curdoc
 from bokeh.themes import Theme
 
@@ -19,14 +19,33 @@ from utils import create_name_strings
 
 # -----------------------------------------------------------------------------
 
-titles: pd.DataFrame = read_titles()
-ratings: pd.DataFrame = read_ratings()
-principals: pd.DataFrame = read_principals()
-names: pd.DataFrame = read_names()
+titles_raw: pd.DataFrame = read_titles()
+ratings_raw: pd.DataFrame = read_ratings()
+principals_raw: pd.DataFrame = read_principals()
+names_raw: pd.DataFrame = read_names()
 
-autocomplete_names = names[['primaryName', 'primaryProfession']].apply(create_name_strings, axis=1).to_list()
+autocomplete_names = names_raw[['primaryName', 'primaryProfession']].apply(create_name_strings, axis=1).to_list()
 
-titles = titles.join(other=ratings, on='tconst', rsuffix='_ratings')
+titles_raw = titles_raw.join(other=ratings_raw, on='tconst', rsuffix='_ratings')
+
+titles = titles_raw.copy()
+
+# -----------------------------------------------------------------------------
+# GLOBALS
+
+year_min = 1910
+year_max = 2021
+
+# 0 - Movies
+# 1 - Tv-Series
+tab = 0
+
+start = year_min
+end = year_max
+
+name = ''
+
+genre = ''
 
 # -----------------------------------------------------------------------------
 
@@ -39,29 +58,76 @@ toplist_source = ColumnDataSource(toplist_df)
 title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
 title_count_source = ColumnDataSource(title_count_df)
 
+def update_data():
+  global tab, start, end, name, genre, titles, genres_source, toplist_source, title_count_source
+
+  if tab == 0:
+    titles = titles_raw[titles_raw.titleType.isin(['movie', 'tvMovie'])]
+  else:
+    titles = titles_raw[titles_raw.titleType.isin(['tvSeries', 'tvMiniSeries'])]
+  
+  titles = titles[
+    ((titles.startYear >= start) & (titles.startYear <= end)) |
+    (titles.endYear.notna() & (
+      ((titles.endYear >= start) & (titles.endYear <= end)) |
+      ((titles.startYear < start) & (titles.endYear > end))
+    ))
+  ]
+
+  if (name != ''):
+    nconst = names_raw[names_raw.primaryName == name]
+    print(nconst)
+    #principals = principals_raw[principals_raw.nconst == ]
+    #titles = titles[titles.tconst]
+
+  new_genres_df: pd.DataFrame = genre_bubble_chart_data(titles.copy())
+  genres_source.data = new_genres_df
+
+  new_toplist_df = top_list_data(titles.copy())
+  toplist_source.data = new_toplist_df
+
+  new_title_count_df: pd.DataFrame = titles_bar_chart_data(titles.copy())
+  title_count_source.data = new_title_count_df
+
+
+
+
+# -----------------------------------------------------------------------------
+
+tab_labels = ['Movies', 'Tv-series']
+tabs = RadioButtonGroup(
+  name='filter_tab',
+  labels=tab_labels,
+  active=tab
+)
+
+def update_tab(attr, old, new):
+  global tab
+
+  if (new != old):
+    tab = new
+    update_data()
+
+tabs.on_change('active', update_tab)
+
 # -----------------------------------------------------------------------------
 
 year_slider = RangeSlider(
   name='filter_year',
-  start=1910,
-  end=2021,
+  start=year_min,
+  end=year_max,
   step=1,
-  value=(1910, 2021)
+  value=(year_min, year_max)
 )
 
 def update_year(attr, old, new):
-  start, end = new
-  global genres_source, toplist_source
+  global start, end
 
-  new_titles = titles[(titles.startYear >= start) & (titles.startYear <= end)]
+  if (new != old):
+    start, end = new
+    update_data()
 
-  genres_new_df = genre_bubble_chart_data(new_titles.copy())
-  genres_source.data = genres_new_df
-
-  toplist_new_df = top_list_data(new_titles.copy())
-  toplist_source.data = toplist_new_df
-
-year_slider.on_change('value', update_year)
+year_slider.on_change('value_throttled', update_year)
 
 # -----------------------------------------------------------------------------
 
@@ -74,18 +140,28 @@ search_bar = AutocompleteInput(
 )
 
 def update_name(attr, old, new):
-  print(new)
+  global name
+
+  if (new != old):
+    name = new.split(' (')[0]
+    update_data()
 
 search_bar.on_change('value', update_name)
 
-# -----------------------------------------------------------------------------
-
-tab_labels = ['Movies', 'Tv-series']
-tabs = RadioButtonGroup(
-  name='filter_tab',
-  labels=tab_labels,
-  active=0
+search_bar_button = Button(
+  name='filter_name_button',
+  label='Clear',
+  width=80
 )
+
+def clear_name():
+  global name
+  
+  if (name != ''):
+    name = ''
+    update_data()
+
+search_bar_button.on_click(clear_name)
 
 # -----------------------------------------------------------------------------
 
@@ -99,6 +175,7 @@ curdoc().add_root(genre_bubble_chart)
 curdoc().add_root(toplist)
 curdoc().add_root(bar_chart)
 
+curdoc().add_root(tabs)
 curdoc().add_root(year_slider)
 curdoc().add_root(search_bar)
-curdoc().add_root(tabs)
+curdoc().add_root(search_bar_button)
