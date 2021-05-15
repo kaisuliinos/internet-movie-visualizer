@@ -1,0 +1,27 @@
+h1, h2, h3, h4, h5, h6, p, a {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.filters {
+  z-index: 1;
+}
+
+.autocomplete .bk.bk-menu.bk-below {
+  max-height: 30vh;
+  overflow: hidden;
+}

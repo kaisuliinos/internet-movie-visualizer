@@ -7,9 +7,9 @@ import circlify
 from bokeh.models import ColumnDataSource, LabelSet
 from bokeh.plotting import figure
 
-from string_to_rgb import string_to_rgb
+from utils import string_to_rgb
 
-circle_plot_width = 800
+circle_plot_width = 400
 
 def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   # Drop unnecessary data
@@ -58,7 +58,6 @@ def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
 def genre_bubble_chart(circles_source: ColumnDataSource):
   p = figure(
     name='genre_bubble_chart',
-    title='Genre popularity',
     x_range=[-1, 1],
     y_range=[-1, 1],
     plot_width=circle_plot_width,

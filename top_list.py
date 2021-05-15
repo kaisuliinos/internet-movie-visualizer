@@ -31,9 +31,8 @@ def top_list_data(titles: pd.DataFrame) -> pd.DataFrame:
 def top_list(top_list: ColumnDataSource):
   p = figure(
     name='top_list',
-    title='Top 10 best rated films',
     plot_width=600,
-    plot_height=400,
+    plot_height=300,
     x_range=[0, 1000],
     y_range=[0, 10],
     min_border=0,

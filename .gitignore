@@ -326,3 +326,4 @@ $RECYCLE.BIN/
 *.tsv
 !*.test.tsv
 *.html
+!templates/*.html

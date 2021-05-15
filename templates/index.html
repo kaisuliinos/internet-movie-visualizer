@@ -1,0 +1,31 @@
+{% extends base %}
+
+{% block title %}Internet Movie Visualizer{% endblock %}
+
+{% block preamble %}
+<link href="internet-movie-visualizer/static/index.css" rel="stylesheet">
+{% endblock %}
+
+{% block contents %}
+<div class="main-container">
+  <h2>Internet Movie Visualizer</h2>
+  <div class="row filters">
+    {{ embed(roots.filter_tab) }}
+    {{ embed(roots.filter_year) }}
+    {{ embed(roots.filter_name) }}
+  </div>
+  <div class="row">
+    <div class="column">
+      <h3>Top 10 best rated titles</h3>
+      {{ embed(roots.top_list) }}
+      <h3>Titles released per year</h3>
+      <p>Series are included in each year between their start and end years</p>
+      {{ embed(roots.titles_bar_chart) }}
+    </div>
+    <div class="column">
+      <h3>Most popular genres</h3>
+      {{ embed(roots.genre_bubble_chart) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

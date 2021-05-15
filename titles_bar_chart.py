@@ -35,12 +35,11 @@ def titles_bar_chart(bar_source: ColumnDataSource):
 
   p = figure(
     name='titles_bar_chart',
-    title='Number of releases per year',
     x_range=(year_min+1, year_max+1),
-    plot_width=1000,
-    plot_height=600,
+    plot_width=600,
+    plot_height=300,
     x_axis_label='Year',
-    tooltips=[("Year", "@startYear"), ("Total releases", "@primaryTitle")],
+    tooltips=[("Year", "@years"), ("Total releases", "@primaryTitle")],
   )
 
   p.toolbar_location = None
