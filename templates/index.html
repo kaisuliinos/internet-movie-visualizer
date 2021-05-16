@@ -20,19 +20,24 @@
   <div class="row charts">
     <div class="column left">
       <h2>Top 10 best rated titles</h2>
-      <p class="info-text">Titles with 1000 or more votes are included. If none of the selected titles have at least
-        1000 votes, all of the titles are included.</p>
       {{ embed(roots.top_list) }}
       <h2>Titles released per year</h2>
-      <p class="info-text">Series are included in each year between their start and end years.</p>
       {{ embed(roots.titles_bar_chart) }}
     </div>
     <div class="column right">
       <h2 class="bubble-title">Most popular genres</h2>
-      <p class="info-text">Click a bubble to see the highest-rated titles and amount of released titles for a specific
-        genre. Undo the selection by clicking between the bubbles.</p>
       {{ embed(roots.genre_bubble_chart) }}
     </div>
+  </div>
+  <div>
+    <h3>Info and instructions</h3>
+    <p>This visualization uses datasets from IMDb which can be found at https://www.imdb.com/interfaces/. The code is
+    available at https://github.com/kaisuliinos/internet-movie-visualizer.</p>
+    <p>The Top list includes titles with 1000 or more votes. If none of the selected titles have 1000 votes after
+      filtering the data, all of the titles are included.</p>
+    <p>In Titles released per year, series are included in each year between their start and end years.</p>
+    <p>In most popular genres, click a bubble to see the highest-rated titles and the amount of released titles for a
+    specific genre. You can select multiple genres by Shift+click. Undo the selection by clicking between the bubbles.</p>
   </div>
 </div>
 {% endblock %}

@@ -13,7 +13,7 @@ h1 {
 }
 
 h2 {
-  margin-bottom: 0;
+  margin-bottom: 1rem;
 }
 
 .main-container {
@@ -60,11 +60,6 @@ h2 {
   overflow-y: auto;
 }
 
-.info-text {
-  font-style: italic;
-  font-size: 0.9rem;
-}
-
 .bubble-title {
-
+  text-align: center;
 }
