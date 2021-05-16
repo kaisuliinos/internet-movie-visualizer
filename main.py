@@ -113,7 +113,7 @@ update_data()
 
 # -----------------------------------------------------------------------------
 
-tab_labels = ['Movies', 'Tv-series']
+tab_labels = ['Films', 'TV-series']
 tabs = RadioButtonGroup(
   name='filter_tab',
   labels=tab_labels,
@@ -157,7 +157,7 @@ search_bar = AutocompleteInput(
   case_sensitive=False,
   completions=autocomplete_names,
   css_classes=['autocomplete'],
-  placeholder='Search for director, author, actor'
+  placeholder='Search for director, writer, actor'
 )
 
 def update_name(attr, old, new):

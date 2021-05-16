@@ -100,13 +100,16 @@ h2 {
 .sidebar .content {
   width: 500px;
   box-sizing: border-box;
-  padding: 6rem 2rem 4rem 2rem;
+  padding: 2rem 2rem 4rem 2rem;
 }
 
-.sidebar .content > * {
-  display: block;
+.sidebar p, .sidebar a {
   color: #fffcf7;
-  transition: 0.3s;
+}
+
+.sidebar h3 {
+  color: #fffcf7;
+  margin-top: 4rem;
 }
 
 .sidebar a:hover {
