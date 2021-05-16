@@ -4,12 +4,26 @@
 
 {% block preamble %}
 <link href="internet-movie-visualizer/static/index.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 
 {% block contents %}
+<div id="sidebar" class="sidebar">
+  <span class="material-icons md-36 close" onclick="closeNav()">
+    close
+  </span>
+  <div id="sidebar-content" class="content">
+    <a href="#">Github</a>
+    <p class="info-text">Lorem ipsum dolor sit amet.</p>
+  </div>
+</div>
+
 <div class="main-container">
   <h1>Internet Movie Visualizer</h1>
   <div class="row filters">
+    <span class="material-icons md-36 menu-button" onclick="openNav()">
+      help_outline
+    </span>
     {{ embed(roots.filter_tab) }}
     {{ embed(roots.filter_year) }}
     <div class="row">
@@ -40,4 +54,15 @@
     specific genre. You can select multiple genres by Shift+click. Undo the selection by clicking between the bubbles.</p>
   </div>
 </div>
+
+<script>
+  function openNav() {
+    console.log(document.getElementById("sidebar-content").style);
+    document.getElementById("sidebar").style.width = "500px";
+  }
+  
+  function closeNav() {
+    document.getElementById("sidebar").style.width = "0";
+  }
+</script>
 {% endblock %}

@@ -1,5 +1,5 @@
-html, body, h1, h2, h3, h4, h5, h6, p, a, section, label, div, span {
-  font-family: 'Courier New', Courier, monospace !important;
+html, body, h1, h2, h3, h4, h5, h6, p, a, section, label, div, span, .bk-root {
+  font-family: 'Courier New', Courier, monospace;
   color: #1f1f1f;
 }
 
@@ -45,10 +45,22 @@ h2 {
 }
 
 .filters {
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
   padding: 0 2rem 2rem;
   z-index: 1;
+}
+
+.filters > * {
+  margin: 0 1rem;
+}
+
+.menu-button {
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  color: #6B6B6B;
 }
 
 .charts {
@@ -62,4 +74,53 @@ h2 {
 
 .bubble-title {
   text-align: center;
+}
+
+.info-text {
+  font-size: 0.9rem;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: #323130;
+  overflow-x: hidden;
+  transition: 0.5s;
+  box-sizing: border-box;
+}
+
+.sidebar .content {
+  width: 500px;
+  box-sizing: border-box;
+  padding: 6rem 2rem 4rem 2rem;
+}
+
+.sidebar .content > * {
+  display: block;
+  color: #fffcf7;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #ccc9c5;
+}
+
+.sidebar .close {
+  cursor: pointer;
+  color: #fffcf7;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.sidebar .close:hover {
+  color: #ccc9c5;
 }
