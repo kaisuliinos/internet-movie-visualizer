@@ -9,6 +9,7 @@ body {
 
 h1 {
   text-align: center;
+  margin-bottom: 4rem;
 }
 
 h2 {
@@ -33,15 +34,37 @@ h2 {
 }
 
 .left {
-  padding-right: 2rem;
+  flex-basis: 0;
+  flex-grow: 0;
+  padding-right: 6rem;
+}
+
+.right {
+  flex-basis: 0;
+  flex-grow: 0;
 }
 
 .filters {
+  align-items: center;
   justify-content: space-evenly;
+  padding: 0 2rem 2rem;
   z-index: 1;
+}
+
+.charts {
+  justify-content: center;
 }
 
 .autocomplete .bk.bk-menu.bk-below {
   max-height: 30vh;
   overflow-y: auto;
+}
+
+.info-text {
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.bubble-title {
+
 }

@@ -9,7 +9,7 @@ from bokeh.plotting import figure
 
 from utils import string_to_rgb
 
-circle_plot_width = 600
+circle_plot_width = 650
 
 def genre_bubble_chart_data(titles: pd.DataFrame) -> pd.DataFrame:
   titles.dropna(subset=['genres'], inplace=True)

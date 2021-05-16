@@ -136,7 +136,8 @@ year_slider = RangeSlider(
   start=year_min,
   end=year_max,
   step=1,
-  value=(year_min, year_max)
+  value=(year_min, year_max),
+  title='Selected years'
 )
 
 def update_year(attr, old, new):
@@ -155,7 +156,8 @@ search_bar = AutocompleteInput(
   value='',
   case_sensitive=False,
   completions=autocomplete_names,
-  css_classes=['autocomplete']
+  css_classes=['autocomplete'],
+  placeholder='Search for director, author, actor'
 )
 
 def update_name(attr, old, new):

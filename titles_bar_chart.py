@@ -44,7 +44,7 @@ def titles_bar_chart(bar_source: ColumnDataSource):
 
   p.xgrid.visible = False
 
-  p.vbar(x='years', top='primaryTitle', source=bar_source, width=0.7)
+  p.vbar(x='years', top='primaryTitle', color='#4d9e9e', source=bar_source, width=0.7)
   p.y_range.start = 0
 
   return p

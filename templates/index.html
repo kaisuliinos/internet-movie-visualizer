@@ -17,16 +17,20 @@
       {{ embed(roots.filter_name_button) }}
     </div>
   </div>
-  <div class="row">
+  <div class="row charts">
     <div class="column left">
       <h2>Top 10 best rated titles</h2>
+      <p class="info-text">Titles with 1000 or more votes are included. If none of the selected titles have at least
+        1000 votes, all of the titles are included.</p>
       {{ embed(roots.top_list) }}
       <h2>Titles released per year</h2>
-      <section>Series are included in each year between their start and end years</section>
+      <p class="info-text">Series are included in each year between their start and end years.</p>
       {{ embed(roots.titles_bar_chart) }}
     </div>
     <div class="column right">
-      <h2>Most popular genres</h2>
+      <h2 class="bubble-title">Most popular genres</h2>
+      <p class="info-text">Click a bubble to see the highest-rated titles and amount of released titles for a specific
+        genre. Undo the selection by clicking between the bubbles.</p>
       {{ embed(roots.genre_bubble_chart) }}
     </div>
   </div>
