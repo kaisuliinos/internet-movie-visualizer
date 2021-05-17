@@ -1,7 +1,8 @@
 # Internet Movie Visualizer
 
 Movie data visualizer based on the IMDb dataset.
-https://youtu.be/k41HBE5w3Jw
+
+Demo: https://youtu.be/k41HBE5w3Jw
 
 ## Requirements
 
