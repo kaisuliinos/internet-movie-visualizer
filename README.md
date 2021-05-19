@@ -17,6 +17,8 @@ Demo: https://youtu.be/k41HBE5w3Jw
 
 ## Running locally
 
+The repo includes a test dataset to get you started, just make sure `read_data.py` has `env = 'test`
+
 ```
 bokeh serve .
 ```
